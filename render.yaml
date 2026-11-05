@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: karthik-taskflow-api
+    runtime: node
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+      - key: FRONTEND_ORIGIN
+        value: https://karthik-taskflow-frontend.onrender.com
+
+  - type: web
+    name: karthik-taskflow-frontend
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://karthik-taskflow-api.onrender.com/api
